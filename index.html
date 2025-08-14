@@ -121,25 +121,6 @@
             transform: scale(1.1);
         }
 
-        .pricing-toggle {
-            background-color: #e5e7eb;
-            border-radius: 9999px;
-            padding: 4px;
-            display: inline-flex;
-            position: relative;
-        }
-        .pricing-toggle-bg {
-            position: absolute;
-            top: 4px;
-            bottom: 4px;
-            width: calc(50% - 4px);
-            background-image: linear-gradient(to right, var(--emerald-start), var(--emerald-mid));
-            border-radius: 9999px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .pricing-toggle[data-billing-cycle="monthly"] .pricing-toggle-bg {
-            transform: translateX(calc(100% + 4px));
-        }
         .pricing-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -207,8 +188,8 @@
             const logoColor2 = isScrolled ? 'text-amber-500' : 'text-amber-300';
 
             return (
-                <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'pt-2' : 'pt-4'}`}>
-                    <nav className={`container mx-auto px-4 sm:px-6 py-3 rounded-full transition-colors duration-300 ${navClasses}`}>
+                <header className="fixed top-0 left-0 right-0 z-50 p-4">
+                    <nav className={`container mx-auto px-4 sm:px-6 py-3 rounded-full transition-all duration-300 ${navClasses}`}>
                         <div className="flex items-center justify-between">
                             <a href="#" onClick={() => handleNavigate('Home')} className="text-2xl font-extrabold tracking-tight font-heading">
                                 <span className={logoColor1}>Bright</span>
@@ -267,20 +248,8 @@
         };
 
         const Home = ({ navigateTo }) => {
-             const socialLinks = [
-                { name: 'Facebook', icon: 'M14 12v-1.5c0-.828.672-1.5 1.5-1.5h1.5V6h-2.25C11.56 6 9 8.56 9 11.25V13h-1.5v3H9v7h4v-7h2.25l.75-3H13v-1c0-.276.224-.5.5-.5h1.5z', href: 'https://www.facebook.com/profile.php?id=61577311361797' },
-                { name: 'Twitter', icon: 'M22.46 6c-.64.28-1.32.47-2.03.56.74-.44 1.3-1.14 1.56-1.95-.69.41-1.45.71-2.26.86-.65-.69-1.58-1.12-2.6-1.12-1.97 0-3.56 1.6-3.56 3.56 0 .28.03.55.09.81-2.95-.15-5.57-1.56-7.32-3.7a3.56 3.56 0 001.1 4.74c-.59-.02-1.14-.18-1.62-.44v.04c0 2.2 1.56 4.03 3.64 4.45-.38.1-.78.15-1.19.15-.29 0-.57-.03-.85-.08.58 1.8 2.26 3.11 4.25 3.15-1.55 1.21-3.51 1.93-5.64 1.93-.37 0-.73-.02-1.09-.06 2 1.28 4.38 2.03 6.94 2.03 8.32 0 12.88-6.9 12.88-12.88 0-.2 0-.39-.01-.59.88-.64 1.65-1.44 2.26-2.34z', href: '#' },
-                { name: 'Instagram', icon: 'M12 1.5a10.5 10.5 0 100 21 10.5 10.5 0 000-21zm0 2.25a8.25 8.25 0 110 16.5 8.25 8.25 0 010-16.5zm0 3a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5zm0 2.25a3 3 0 110 6 3 3 0 010-6zm5.25-3.375a.938.938 0 100 1.875.938.938 0 000-1.875z', href: '#' },
-            ];
             return (
                 <section id="home" className="relative h-screen flex items-center justify-center text-white overflow-hidden animated-gradient">
-                    <div className="absolute right-4 md:right-8 top-28 z-20 flex-col space-y-4 hidden md:flex">
-                        {socialLinks.map(link => (
-                            <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer" className="text-white hover:text-amber-300 transition-colors">
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d={link.icon}></path></svg>
-                            </a>
-                        ))}
-                    </div>
                     <div className="relative z-10 text-center px-4 flex flex-col items-center">
                         <img 
                             src="https://www.brightlifebd.com/Untitled-1-01.png" 
@@ -288,7 +257,7 @@
                             className="h-28 w-28 md:h-36 md:w-36 mx-auto mb-8 rounded-full shadow-2xl bg-white/20 p-2 logo-animation"
                             onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/144x144/ffffff/059669?text=BL'; }}
                         />
-                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 font-heading">Your Future, Brighter.</h1>
+                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 font-heading">Bright Life Bangladesh LTD</h1>
                         <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-200 mb-10 font-body leading-relaxed">Bright Life Bangladesh offers premier health coverage and exclusive discounts to ensure your peace of mind.</p>
                         <button onClick={() => navigateTo('Registration')} className="btn-gold-gradient text-green-900 font-bold py-4 px-10 rounded-full text-lg shadow-xl">
                             Become a Member
@@ -305,23 +274,30 @@
                 const observer = new IntersectionObserver(([entry]) => {
                     if (entry.isIntersecting) {
                         let start = 0;
-                        const end = parseInt(value);
+                        const end = parseInt(value.replace(/,/g, ''));
                         const duration = 2000;
-                        const stepTime = Math.abs(Math.floor(duration / end));
-                        const timer = setInterval(() => {
-                            start += 1;
-                            setCount(start);
-                            if (start === end) clearInterval(timer);
-                        }, stepTime);
+                        const increment = end / (duration / 16);
+
+                        const animate = () => {
+                            start += increment;
+                            if (start < end) {
+                                setCount(Math.ceil(start));
+                                requestAnimationFrame(animate);
+                            } else {
+                                setCount(end);
+                            }
+                        };
+                        requestAnimationFrame(animate);
                         observer.disconnect();
                     }
                 }, { threshold: 0.5 });
                 if (ref.current) observer.observe(ref.current);
                 return () => observer.disconnect();
             }, [value]);
+
             return (
                 <div ref={ref} className="text-center">
-                    <p className="text-5xl md:text-6xl font-extrabold text-emerald-600 font-heading">{count}{value.slice(-1)}</p>
+                    <p className="text-5xl md:text-6xl font-extrabold text-emerald-600 font-heading">{Math.ceil(count).toLocaleString()}+</p>
                     <p className="text-lg text-gray-500 font-body">{label}</p>
                 </div>
             );
@@ -389,9 +365,9 @@
                     </div>
                     <div className="py-20 bg-white">
                         <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl">
-                            <StatCounter value="50K+" label="Members Served" />
-                            <StatCounter value="200+" label="Partner Hospitals" />
-                            <StatCounter value="1K+" label="Lifestyle Brands" />
+                            <StatCounter value="10000" label="Members Served" />
+                            <StatCounter value="300" label="Partner Hospitals" />
+                            <StatCounter value="200" label="Lifestyle Brands" />
                         </div>
                     </div>
                     <div id="ourteam" className="py-24 bg-gray-50">
@@ -421,19 +397,12 @@
         };
 
         const OurServices = () => {
-            const [billingCycle, setBillingCycle] = React.useState('yearly');
-            const plans = {
-                yearly: [
-                    { name: 'Silver', price: '1,200', duration: '/year', description: 'Essential coverage for everyday peace of mind.', features: ['24/7 Tele-Doctor', 'Specialist Consultation', 'Partner Hospital Discounts', 'Up to 15% Medicine Discount'], featured: false },
-                    { name: 'Gold', price: '3,000', duration: '/year', description: 'Our most comprehensive plan for maximum security.', features: ['All Bronze Features', 'Highest Cashback Limit (15,000)', '30-Night Hospital Stay', 'Exclusive Gifts & Tours'], featured: true },
-                    { name: 'Bronze', price: '2,000', duration: '/year', description: 'Enhanced benefits for greater protection.', features: ['All Silver Features', 'Increased Cashback Limit (10,000)', '20-Night Hospital Stay'], featured: false },
-                ],
-                monthly: [
-                    { name: 'Silver', price: '120', duration: '/month', description: 'Essential coverage for everyday peace of mind.', features: ['24/7 Tele-Doctor', 'Specialist Consultation', 'Partner Hospital Discounts', 'Up to 15% Medicine Discount'], featured: false },
-                    { name: 'Gold', price: '300', duration: '/month', description: 'Our most comprehensive plan for maximum security.', features: ['All Bronze Features', 'Highest Cashback Limit (15,000)', '30-Night Hospital Stay', 'Exclusive Gifts & Tours'], featured: true },
-                    { name: 'Bronze', price: '200', duration: '/month', description: 'Enhanced benefits for greater protection.', features: ['All Silver Features', 'Increased Cashback Limit (10,000)', '20-Night Hospital Stay'], featured: false },
-                ]
-            };
+            const plans = [
+                { name: 'Silver', price: '1,500', duration: '/year', description: 'Essential coverage for everyday peace of mind.', features: ['24/7 Tele-Doctor', 'Specialist Consultation', 'Partner Hospital Discounts', 'Up to 15% Medicine Discount'], featured: false },
+                { name: 'Gold', price: '3,500', duration: '/year', description: 'Our most comprehensive plan for maximum security.', features: ['All Bronze Features', 'Highest Cashback Limit (15,000)', '30-Night Hospital Stay', 'Exclusive Gifts & Tours'], featured: true },
+                { name: 'Bronze', price: '2,500', duration: '/year', description: 'Enhanced benefits for greater protection.', features: ['All Silver Features', 'Increased Cashback Limit (10,000)', '20-Night Hospital Stay'], featured: false },
+            ];
+            
             const coreServices = [
                 { title: "Health Coverage", description: "Access top-tier medical facilities without financial strain.", icon: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" },
                 { title: "Exclusive Discounts", description: "Enjoy special rates at a wide network of partner brands.", icon: "M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.5 9.53L9 10.5l-1.5 1.5L12 15.5l4.5-4.5L15 9.5l-3 3.03z" },
@@ -458,18 +427,9 @@
                                 </div>
                             ))}
                         </div>
-                        <div className="flex flex-col items-center justify-center mb-12">
-                            <div className="pricing-toggle" data-billing-cycle={billingCycle}>
-                                <div className="pricing-toggle-bg"></div>
-                                <button onClick={() => setBillingCycle('yearly')} className={`relative z-10 px-6 py-2 rounded-full font-semibold transition-colors ${billingCycle === 'yearly' ? 'text-white' : 'text-gray-500'}`}>Yearly</button>
-                                <button onClick={() => setBillingCycle('monthly')} className={`relative z-10 px-6 py-2 rounded-full font-semibold transition-colors ${billingCycle === 'monthly' ? 'text-white' : 'text-gray-500'}`}>Monthly</button>
-                            </div>
-                            {billingCycle === 'yearly' && <span className="mt-4 bg-amber-100 text-amber-800 text-sm font-bold px-3 py-1 rounded-full">Save 15%</span>}
-                        </div>
                         <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-end">
-                            {plans[billingCycle].map(plan => (
-                                <div key={plan.name} className={`pricing-card bg-white rounded-2xl shadow-lg p-8 flex flex-col ${plan.featured ? 'border-4 border-amber-400' : 'border-4 border-transparent'}`}>
-                                    {plan.featured && <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-white text-sm font-bold px-4 py-1 rounded-full">Most Popular</span>}
+                            {plans.map(plan => (
+                                <div key={plan.name} className={`pricing-card bg-white rounded-2xl shadow-lg p-8 flex flex-col relative ${plan.featured ? 'border-4 border-amber-400' : 'border-4 border-transparent'}`}>
                                     <h3 className="text-2xl font-bold text-gray-800 font-heading">{plan.name}</h3>
                                     <p className="text-gray-500 mt-2 mb-6 font-body flex-grow">{plan.description}</p>
                                     <div className="mb-8">
@@ -642,15 +602,128 @@
                 <div className="container mx-auto px-6">
                     <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">{title}</h2>
-                        <div className="prose max-w-none text-gray-600">{children}</div>
+                        <div className="space-y-6 text-gray-600">{children}</div>
                     </div>
                 </div>
             </section>
         );
 
-        const TermsAndConditions = () => (<PolicySection id="termsandconditions" title="Terms & Conditions"><p>Content coming soon...</p></PolicySection>);
-        const PrivacyPolicy = () => (<PolicySection id="privacypolicy" title="Privacy Policy"><p>Content coming soon...</p></PolicySection>);
-        const ReturnAndRefundPolicy = () => (<PolicySection id="returnandrefundpolicy" title="Return & Refund Policy"><p>Content coming soon...</p></PolicySection>);
+        const TermsAndConditions = () => (
+            <PolicySection id="termsandconditions" title="Terms and Conditions (শর্তাবলী)">
+                <div>
+                    <h3 className="text-2xl font-bold text-gray-800 mt-6 mb-4 font-heading">English Version</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-bold text-lg">Services Provided</h4>
+                            <p>Bright Life-Bangladesh Ltd. provides health coverage, member discounts, and partner benefits via Bright Cards in collaboration with hospitals, pharmacies, and diagnostic centers.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Membership Rules</h4>
+                            <p>Membership is personal, non-transferable, and valid only for the subscribed period. Benefits are available only at authorized partners.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Payment & SSLCommerz Compliance</h4>
+                            <p>All payments made through SSLCommerz are secured. The company complies with Payment Card Industry Data Security Standards (PCI DSS).</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Liability Limitations</h4>
+                            <p>Bright Life is not liable for the quality or outcome of services provided by partners.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Legal Compliance</h4>
+                            <p>All operations comply with the Bangladesh Consumer Rights Protection Act, 2009 (Sections 38 & 41 – protection from false promises and unfair contracts).</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Dispute Resolution</h4>
+                            <p>Any consumer complaint will first be addressed internally. If unresolved, disputes may be referred to the Directorate of National Consumer Rights Protection (DNCRP) under the 2009 Act.</p>
+                        </div>
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4 font-heading">বাংলা সংস্করণ</h3>
+                    <div className="space-y-4 font-body">
+                        <p>১. প্রদত্ত সেবা – ব্রাইট লাইফ-বাংলাদেশ লিমিটেড ব্রাইট কার্ডের মাধ্যমে হাসপাতাল, ফার্মেসি ও ডায়াগনস্টিক সেন্টারের সাথে অংশীদারিত্বে স্বাস্থ্য সুরক্ষা, ডিসকাউন্ট ও অন্যান্য সুবিধা প্রদান করে।</p>
+                        <p>২. সদস্যপদ নীতি – সদস্যপদ ব্যক্তিগত, হস্তান্তরযোগ্য নয় এবং নির্ধারিত মেয়াদের জন্যই কার্যকর থাকবে। সুবিধা কেবল অনুমোদিত অংশীদারদের কাছেই প্রযোজ্য।</p>
+                        <p>৩. পেমেন্ট ও SSLCommerz কমপ্লায়েন্স – SSLCommerz এর মাধ্যমে প্রদত্ত সব পেমেন্ট নিরাপদ এবং কোম্পানি পেমেন্ট কার্ড ইন্ডাস্ট্রি ডাটা সিকিউরিটি স্ট্যান্ডার্ড (PCI DSS) অনুসরণ করে।</p>
+                        <p>৪. দায়বদ্ধতার সীমাবদ্ধতা – অংশীদার প্রতিষ্ঠানের প্রদত্ত সেবার মান বা ফলাফলের জন্য ব্রাইট লাইফ দায়ী থাকবে না।</p>
+                        <p>৫. আইনগত অনুসরণ – কোম্পানির সব কার্যক্রম ভোক্তা অধিকার সংরক্ষণ আইন, ২০০৯ এর ধারা ৩৮ ও ৪১ অনুসরণ করে।</p>
+                        <p>৬. বিতর্ক নিষ্পত্তি – কোনো অভিযোগ প্রথমে কোম্পানির অভ্যন্তরে সমাধানের চেষ্টা করা হবে। সমাধান না হলে ২০০৯ সালের আইন অনুযায়ী জাতীয় ভোক্তা অধিকার সংরক্ষণ অধিদপ্তরে অভিযোগ দাখিল করা যাবে।</p>
+                    </div>
+                </div>
+            </PolicySection>
+        );
+
+        const PrivacyPolicy = () => (
+            <PolicySection id="privacypolicy" title="Privacy Policy (গোপনীয়তা নীতি)">
+                <div>
+                    <h3 className="text-2xl font-bold text-gray-800 mt-6 mb-4 font-heading">English Version</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-bold text-lg">Information Collection</h4>
+                            <p>We collect personal details, membership information, and usage data for service delivery.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Use of Data</h4>
+                            <p>To provide membership benefits, verify partner discounts, and improve services.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Data Sharing</h4>
+                            <p>Shared only with authorized partners for benefit verification, per Section 75 of the Bangladesh Consumer Rights Protection Act, 2009.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Data Security</h4>
+                            <p>SSL encryption is used for all online transactions via SSLCommerz.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Your Rights</h4>
+                            <p>You may request correction/deletion of your data and opt out of promotional communications.</p>
+                        </div>
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4 font-heading">বাংলা সংস্করণ</h3>
+                    <div className="space-y-4 font-body">
+                        <p>১. তথ্য সংগ্রহ – আমরা সেবা প্রদানের জন্য ব্যক্তিগত তথ্য, সদস্যপদ সংক্রান্ত তথ্য ও ব্যবহারের ডাটা সংগ্রহ করি।</p>
+                        <p>২. তথ্যের ব্যবহার – সদস্যপদ সুবিধা প্রদান, পার্টনার ডিসকাউন্ট যাচাই এবং সেবা উন্নত করার জন্য ব্যবহৃত হয়।</p>
+                        <p>৩. তথ্য শেয়ারিং – শুধুমাত্র অনুমোদিত অংশীদারদের সাথে সুবিধা যাচাইয়ের জন্য শেয়ার করা হয় এবং ভোক্তা অধিকার সংরক্ষণ আইন, ২০০৯ এর ধারা ৭৫ মেনে চলা হয়।</p>
+                        <p>৪. তথ্য নিরাপত্তা – SSLCommerz এর মাধ্যমে সকল অনলাইন লেনদেন SSL এনক্রিপশনের মাধ্যমে সুরক্ষিত থাকে।</p>
+                        <p>৫. আপনার অধিকার – আপনি আপনার তথ্য সংশোধন/মুছে ফেলার অনুরোধ করতে পারেন এবং প্রচারমূলক বার্তা বন্ধ করতে পারেন।</p>
+                    </div>
+                </div>
+            </PolicySection>
+        );
+
+        const ReturnAndRefundPolicy = () => (
+            <PolicySection id="returnandrefundpolicy" title="Return & Refund Policy (ফেরত ও রিফান্ড নীতি)">
+                 <div>
+                    <h3 className="text-2xl font-bold text-gray-800 mt-6 mb-4 font-heading">English Version</h3>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="font-bold text-lg">Eligibility</h4>
+                            <p>Refunds are allowed within 7 days of payment if no benefits have been used.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Refund Process</h4>
+                            <p>Requests must be made via email or in-person. Refunds are processed within 10–15 business days.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">Legal Compliance</h4>
+                            <p>In line with Section 41 of the Bangladesh Consumer Rights Protection Act, 2009, customers may seek legal remedy if refund policies are violated.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-lg">No Refund Cases</h4>
+                            <p>No refund after benefit usage or membership termination due to breach of terms.</p>
+                        </div>
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4 font-heading">বাংলা সংস্করণ</h3>
+                    <div className="space-y-4 font-body">
+                        <p>১. যোগ্যতা – পেমেন্টের ৭ দিনের মধ্যে রিফান্ড পাওয়া যাবে যদি কোনো সুবিধা ব্যবহার না করা হয়।</p>
+                        <p>২. রিফান্ড প্রক্রিয়া – ইমেইল বা সরাসরি উপস্থিত হয়ে রিকোয়েস্ট করতে হবে। রিফান্ড ১০–১৫ কর্মদিবসের মধ্যে প্রক্রিয়া করা হবে।</p>
+                        <p>৩. আইনগত অনুসরণ – ভোক্তা অধিকার সংরক্ষণ আইন, ২০০৯ এর ধারা ৪১ অনুযায়ী রিফান্ড নীতি লঙ্ঘন হলে গ্রাহক আইনগত প্রতিকার চাইতে পারবেন।</p>
+                        <p>৪. রিফান্ড প্রযোজ্য নয় এমন ক্ষেত্র – সুবিধা ব্যবহার বা শর্ত ভঙ্গজনিত কারণে সদস্যপদ বাতিল হলে রিফান্ড প্রযোজ্য হবে না।</p>
+                    </div>
+                </div>
+            </PolicySection>
+        );
         const CustomerSupport = () => (<PolicySection id="customersupport" title="Customer Support"><p>Content coming soon...</p></PolicySection>);
 
         const Footer = ({ navigateTo }) => {
@@ -715,7 +788,7 @@
             };
             
             return (
-                <div className="bg-white">
+                <div>
                     <Navbar navigateTo={navigateTo} />
                     <main>
                         <Home navigateTo={navigateTo} />

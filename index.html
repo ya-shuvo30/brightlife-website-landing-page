@@ -159,6 +159,7 @@
         const Navbar = ({ navigateTo }) => {
             const [isMenuOpen, setIsMenuOpen] = React.useState(false);
             const [isAboutDropdownOpen, setIsAboutDropdownOpen] = React.useState(false);
+            const [isServicesDropdownOpen, setIsServicesDropdownOpen] = React.useState(false);
             const [isMoreDropdownOpen, setIsMoreDropdownOpen] = React.useState(false);
             const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -172,6 +173,7 @@
                 navigateTo(page);
                 setIsMenuOpen(false);
                 setIsAboutDropdownOpen(false);
+                setIsServicesDropdownOpen(false);
                 setIsMoreDropdownOpen(false);
             };
 
@@ -209,7 +211,19 @@
                                         </div>
                                     )}
                                 </div>
-                                <a href="#" onClick={() => handleNavigate('OurServices')} className={`${hoverTextClasses} transition-colors`}>Services</a>
+                                <div className="relative">
+                                    <button onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)} className={`flex items-center ${hoverTextClasses} transition-colors`}>
+                                        Services <Icon path="M19.5 8.25l-7.5 7.5-7.5-7.5" className="w-4 h-4 ml-1" solid />
+                                    </button>
+                                    {isServicesDropdownOpen && (
+                                        <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-20">
+                                            <a href="#" onClick={() => handleNavigate('OurServices')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Plans & Pricing</a>
+                                            <a href="#" onClick={() => handleNavigate('NetworkHospital')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Network Hospitals</a>
+                                            <a href="#" onClick={() => handleNavigate('SuperShop')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Super Shops</a>
+                                            <a href="#" onClick={() => handleNavigate('Transportation')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Transportation</a>
+                                        </div>
+                                    )}
+                                </div>
                                 <a href="#" onClick={() => handleNavigate('Contact')} className={`${hoverTextClasses} transition-colors`}>Contact</a>
                                 <div className="relative">
                                     <button onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)} className={`flex items-center ${hoverTextClasses} transition-colors`}>
@@ -218,6 +232,7 @@
                                     {isMoreDropdownOpen && (
                                         <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-20">
                                             <a href="#" onClick={() => handleNavigate('ValuedMembers')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Valued Members</a>
+                                            <a href="#" onClick={() => handleNavigate('InsurancePartner')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Insurance Partner</a>
                                             <a href="#" onClick={() => handleNavigate('CustomerSupport')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Customer Support</a>
                                             <a href="#" onClick={() => handleNavigate('TermsAndConditions')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Terms & Conditions</a>
                                             <a href="#" onClick={() => handleNavigate('PrivacyPolicy')} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Privacy Policy</a>
@@ -402,17 +417,12 @@
                     name: 'Silver', 
                     price: '1,500', 
                     duration: '/year', 
-                    description: 'Essential coverage for everyday peace of mind.', 
                     features: [
-                        '24/7 Tele Doctor', 
-                        'Specialist Consultation', 
-                        'Partner Hospital Discounts', 
-                        'Up to 15% Medicine Discount',
-                        '৳5,000 Cashback (1 Year)',
-                        '10-Night Hospital Stay',
-                        'Life Coverage (AD: ৳50,000)',
-                        'Up to 30% Shop Discount',
-                        'Tour Gift by Lottery'
+                        '24/7 Tele-Doctor & Specialist Consultation', 
+                        'Discounts: Hospital, Medicine (Up to 15%), Shops (Up to 30%)',
+                        'Hospitalization: ৳5,000 Cashback (1 Year) & 10 Nights',
+                        'Life Coverage: AD ৳100,000 & ND ৳50,000',
+                        'Gift & Tour by Lottery'
                     ], 
                     featured: false 
                 },
@@ -420,14 +430,12 @@
                     name: 'Bronze', 
                     price: '2,500', 
                     duration: '/year', 
-                    description: 'Enhanced benefits for greater protection.', 
                     features: [
                         'All Silver Features',
                         'Increased Cashback: ৳10,000 (2 Years)',
-                        '20-Night Hospital Stay',
-                        'Life Coverage (AD: ৳50,000)',
-                        'Up to 30% Shop Discount',
-                        'Tour Gift by Lottery'
+                        'Increased Stay: 20 Nights',
+                        'Life Coverage: AD ৳100,000 & ND ৳50,000',
+                        'Gift & Tour by Lottery'
                     ], 
                     featured: false 
                 },
@@ -435,14 +443,12 @@
                     name: 'Gold', 
                     price: '3,500', 
                     duration: '/year', 
-                    description: 'Our most comprehensive plan for maximum security.', 
                     features: [
                         'All Bronze Features',
                         'Highest Cashback: ৳15,000 (3 Years)',
-                        '30-Night Hospital Stay',
-                        'Life Coverage (AD: ৳100,000)',
-                        'Exclusive Gifts & Tours',
-                        'Up to 30% Shop Discount'
+                        'Increased Stay: 30 Nights',
+                        'Life Coverage: AD ৳100,000 & ND ৳50,000',
+                        'Exclusive Gifts & Tours'
                     ], 
                     featured: true 
                 },
@@ -472,16 +478,15 @@
                                 </div>
                             ))}
                         </div>
-                        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto items-start">
+                        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
                             {plans.map(plan => (
                                 <div key={plan.name} className={`pricing-card bg-white rounded-2xl shadow-lg p-8 flex flex-col ${plan.featured ? 'border-4 border-amber-400' : 'border-4 border-transparent'}`}>
                                     <h3 className="text-2xl font-bold text-gray-800 font-heading">{plan.name}</h3>
-                                    <p className="text-gray-500 mt-2 mb-6 font-body flex-grow">{plan.description}</p>
-                                    <div className="mb-8">
+                                    <div className="my-8">
                                         <span className="text-5xl font-extrabold text-gray-900 font-heading">৳{plan.price}</span>
                                         <span className="text-lg text-gray-500 font-medium">{plan.duration}</span>
                                     </div>
-                                    <ul className="space-y-4 mb-8 text-gray-600 font-body">
+                                    <ul className="space-y-4 mb-8 text-gray-600 font-body flex-grow">
                                         {plan.features.map(feature => (
                                             <li key={feature} className="flex items-start">
                                                 <Icon path="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" className="w-6 h-6 text-emerald-500 mr-3 flex-shrink-0 mt-1" solid />
@@ -507,11 +512,11 @@
                 { name: "Md. Delower Hossain", location: "Rajshahi", rating: 5, testimonial: "“একটি দুর্ঘটনার পর Bright Life Bangladesh থেকে পাওয়া দ্রুত সাপোর্ট আমাকে মুগ্ধ করেছে। তখন আমি সত্যিই বুঝতে পারি, সঠিক সময়ে সাহায্য পাওয়া কতটা গুরুত্বপূর্ণ।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=DH" },
                 { name: "Md. Mobarak Hossain", location: "Sylhet", rating: 5, testimonial: "“আমার বাবা অসুস্থ হলে Bright Life Bangladesh আমাদের পাশে দাঁড়িয়েছিল। তাদের আর্থিক সহায়তা না পেলে এত দ্রুত চিকিৎসা শুরু করা সম্ভব হতো না।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=MH" },
                 { name: "Sahida", location: "Barisal", rating: 5, testimonial: "“Bright Life Bangladesh আমার জীবনের সবচেয়ে ভরসার জায়গা। একজন নারী হিসেবে আমি এখানে যে নিরাপত্তা পেয়েছি, তা সত্যিই অনন্য।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=S" },
-                { name: "Md. Shagor Islam", location: "Cumilla", rating: 5, testimonial: "“আমি প্রথমে ভেবেছিলাম Bright Life Bangladesh কেবল নামেই সেবা দেবে। কিন্তু ব্যবহার করার পর দেখলাম, তারা প্রতিশ্রুতির চেয়েও বেশি দেয়।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=RI" },
+                { name: "Md. Rezaul Islam", location: "Cumilla", rating: 5, testimonial: "“আমি প্রথমে ভেবেছিলাম Bright Life Bangladesh কেবল নামেই সেবা দেবে। কিন্তু ব্যবহার করার পর দেখলাম, তারা প্রতিশ্রুতির চেয়েও বেশি দেয়।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=RI" },
                 { name: "Md. Aminul Islam", location: "Chattogram", rating: 5, testimonial: "“এক বন্ধুর পরামর্শে Bright Life Bangladesh-এ যোগ দিই। এখন মনে হয়, এর আগেই যদি জানতাম, তাহলে আরও আগে থেকেই এই সুরক্ষার মধ্যে থাকতে পারতাম।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=AI" },
-                { name: "Md. Motin Hossen", location: "Mymensingh", rating: 5, testimonial: "“Bright Life Bangladesh আমাকে শুধু সাপোর্টই দেয়নি, দিয়েছে আত্মবিশ্বাস। এখন পরিবারকে নিয়ে অনেক নিশ্চিন্ত মনে দিন কাটাতে পারি।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=TH" },
-                { name: "Md. Abdul Kalam", location: "Khulna", rating: 5, testimonial: "“আমি ভেবেছিলাম শুধু শহরের মানুষই Bright Life Bangladesh থেকে সুবিধা পায়। কিন্তু আমি গ্রামের মানুষ হয়েও সমান সেবা পেয়েছি, যা সত্যিই প্রশংসনীয়।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=AM" },
-                { name: "Md. Rezaul Islam", location: "Rangpur", rating: 5, testimonial: "“একটি ছোট্ট অসুস্থতার সময়ে Bright Life Bangladesh আমার পাশে দাঁড়ায়। তাদের সেবায় বুঝেছি, তারা শুধু গ্রাহক নয়, পরিবার হিসেবেই আমাদের দেখে।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=RI" },
+                { name: "Md. Tuhin Rana", location: "Mymensingh", rating: 5, testimonial: "“Bright Life Bangladesh আমাকে শুধু সাপোর্টই দেয়নি, দিয়েছে আত্মবিশ্বাস। এখন পরিবারকে নিয়ে অনেক নিশ্চিন্ত মনে দিন কাটাতে পারি।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=TR" },
+                { name: "Md. Anamul H. Khan", location: "Khulna", rating: 5, testimonial: "“আমি ভেবেছিলাম শুধু শহরের মানুষই Bright Life Bangladesh থেকে সুবিধা পায়। কিন্তু আমি গ্রামের মানুষ হয়েও সমান সেবা পেয়েছি, যা সত্যিই প্রশংসনীয়।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=AK" },
+                { name: "Md. Rezaul Karim", location: "Rangpur", rating: 5, testimonial: "“একটি ছোট্ট অসুস্থতার সময়ে Bright Life Bangladesh আমার পাশে দাঁড়ায়। তাদের সেবায় বুঝেছি, তারা শুধু গ্রাহক নয়, পরিবার হিসেবেই আমাদের দেখে।”", img: "https://placehold.co/400x400/a0aec0/ffffff?text=RK" },
             ];
 
             const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % members.length);
@@ -654,6 +659,27 @@
                     <div className="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">{title}</h2>
                         <div className="space-y-6 text-gray-600">{children}</div>
+                    </div>
+                </div>
+            </section>
+        );
+        
+        const InsurancePartner = () => (
+            <section id="insurancepartner" className="py-24 bg-white">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 font-heading tracking-tight">Our Insurance Partner</h2>
+                    <p className="max-w-2xl mx-auto text-lg text-gray-600 mb-16 leading-relaxed font-body">
+                        We are proud to partner with Protective Islami Life Insurance Ltd. to provide our members with the best possible coverage and security.
+                    </p>
+                    <div className="max-w-2xl mx-auto bg-gray-50 p-8 rounded-2xl shadow-xl">
+                        <img src="Screenshot 2025-08-17 184122.png" alt="Protective Islami Life Ins. Ltd. Logo" className="h-24 mx-auto mb-8"/>
+                        <h3 className="text-3xl font-bold text-gray-800 font-heading">Protective Islami Life Ins. Ltd.</h3>
+                        <p className="text-gray-600 mt-4 mb-8">
+                            Protective Islami Life Insurance Limited (PILIL) is the fastest growing Life Insurance Company in Bangladesh. Being the leading group insurer, PILIL has been working towards financial inclusion; PILIL quite extensively with over 1 Million lives coming under the umbrella of PILIL.
+                        </p>
+                        <a href="https://www.protectivelife.com.bd/" target="_blank" rel="noopener noreferrer" className="btn-gold-gradient text-green-900 font-bold py-3 px-8 rounded-full inline-block">
+                            Visit Their Website
+                        </a>
                     </div>
                 </div>
             </section>
@@ -848,6 +874,7 @@
                         <ValuedMembers />
                         <Registration />
                         <Contact />
+                        <InsurancePartner />
                         <CustomerSupport />
                         <TermsAndConditions />
                         <PrivacyPolicy />
